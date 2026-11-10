@@ -125,7 +125,7 @@ def compressible_vortex_grid_family_output(cv, imax, jmax, levels, folder, skip1
         p2d_out(GRID2,filename)
       Ni = [ 1, int((GRID['imax'] - 1)/s + 1) ]
       Nj = [ 1, int((GRID['jmax'] - 1)/s + 1) ]
-      N  = [ GRID['imax'], GRID['jmax'] ]
+      N  = [ GRID2['imax'], GRID2['jmax'] ]
       idx_list = []
       idx_list.append([ Ni[0], Ni[1],  Nj[0], Nj[0] ])
       idx_list.append([ Ni[0], Ni[1],  Nj[1], Nj[1] ])
@@ -149,16 +149,17 @@ def SENSEI_BC_write( N, idx_list, bc_id_list, additional_inputs, filename ):
     f.write("1\n")
     f.write("1\n")
     for n in N:
-      f.write( f"{n:5d}\n")
+      f.write( f" {n:<5d}")
+    f.write("\n")
     f.write("A\n")
-    f.write(f"{N_bcs:5d}\n")
+    f.write(f"{N_bcs:<5d}\n")
     for n in range(N_bcs):
       f.write(f"bc{n+1:d}  ")
       for idx in idx_list[n]:
-        f.write(f"{idx:5d}")
-      f.write(f"{bc_id_list[n]:5d}")
+        f.write(f" {idx:<5d}")
+      f.write(f" {bc_id_list[n]:<5d}")
       for input in additional_inputs[n]:
-        f.write(f"{input:.18e}")
+        f.write(f" {input:<.18e}")
       f.write("\n")
 
 
@@ -195,8 +196,8 @@ if __name__ == "__main__":
   compressible_vortex_grid_family_output( cv, imax, jmax, levels, folder, 
                                           skip1=1, skip2=1, prefix='svf', 
                                           write_grids=False,
-                                          write_bcs=False,
-                                          plot_grid=True   )
+                                          write_bcs=True,
+                                          plot_grid=False   )
   # GRID = cv.make_grid(5,5)
   # p2d_out(GRID,'test.grd')
   # do_something()
